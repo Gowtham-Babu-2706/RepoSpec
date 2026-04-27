@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+
+.public-regular {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.public-regular {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+.public-thin {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+
+.mogra-regular {
+  font-family: "Mogra", system-ui;
+  font-weight: 100;
+  font-style: normal;
+}
