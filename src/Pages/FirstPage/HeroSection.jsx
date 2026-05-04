@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -29,19 +30,19 @@ const HeroSection = () => {
 
         {/* Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#"
+          <Link
+            to={"/search"}
             className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition"
           >
             Browse Repos
-          </a>
+          </Link>
 
-          <a
-            href="#"
+          <Link
+            to={"/upload"}
             className="px-6 py-3 border border-gray-400 rounded-lg hover:bg-gray-50 transition"
           >
             Submit a Repo
-          </a>
+          </Link>
         </div>
 
       </div>

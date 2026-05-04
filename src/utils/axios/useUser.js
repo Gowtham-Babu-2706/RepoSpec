@@ -1,50 +1,59 @@
 import { useState, useEffect } from "react";
-import {
-  fetchAllData,
-  fetchDataByName,
-  createRepoData,
-} from "./userApi";
-
+import { fetchAllData,searchRepos,createRepoData } from "./userApi";
 
 export const useUser = () => {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const getData = async (pageNum = 0) => {
-    const res = await fetchAllData({ page: pageNum, size: 9 });
-    setData(res.content);
+  const getData = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetchAllData();
+      const newData = Array.isArray(res) ? res : res.content || [];
+
+      setData((prev) => {
+        const merged = [ ...newData];
+
+        const unique = Array.from(
+          new Map(merged.map(item => [item.id, item])).values()
+        );
+
+        return unique;
+      });
+
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    getData(0);
+    getData(); // initial load
   }, []);
 
-  const loadMore = async () => {
-    const next = page + 1;
-    await getData(next);
-    setPage(next);
+  return { data, loading, refetch: getData };
+};
+
+
+
+export const useRepoSearch = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const search = async (filters) => {
+    try {
+      setLoading(true);
+
+      const res = await searchRepos(filters);
+
+      setData(res.content || []);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return { data, refetch: loadMore };
+  return { data, loading, search };
 };
-
-export const useUserByName = (name = "") => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      if (!name.trim()) return setData([]);
-
-      const res = await fetchDataByName(name);
-      setData(res);
-    };
-
-    getData();
-  }, [name]);
-
-  return { data };
-};
-
 
 export const useCreateRepo = () => {
   const [loading, setLoading] = useState(false);
